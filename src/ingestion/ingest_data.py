@@ -14,7 +14,7 @@ class DataIngester:
         
         # Create or get collection
         self.collection = self.client.get_or_create_collection(
-            name="rag_data",
+            name="byd_seal_docs",
             metadata={"description": "RAG data collection for BYD Seal"}
         )
         
