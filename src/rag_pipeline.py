@@ -16,8 +16,15 @@ class RAGPipeline:
     
     def __init__(self):
         """Initialize the RAG pipeline with OpenAI client and ChromaDB"""
-        self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
-        self.model = 'gpt-4o-mini'  # Efficient model for production use
+        api_key = os.getenv('OPENAI_API_KEY')
+        base_url = os.getenv('OPENAI_BASE_URL')
+        self.model = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')  # Allow override via env
+
+        # Initialize OpenAI client with optional base_url for compatibility
+        if base_url:
+            self.client = OpenAI(api_key=api_key, base_url=base_url)
+        else:
+            self.client = OpenAI(api_key=api_key)
         
         # Initialize ChromaDB client
         self.chroma_client = chromadb.PersistentClient(
